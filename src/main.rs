@@ -96,7 +96,7 @@ unsafe fn inject(p: Process, dll_path: &str, proc_name: &str) {
     println!("Dll path size: {}", dll_path_size);
     println!("Dll path bytes: {:?}", dll_path.as_bytes());
 
-    p.write_buf(dll_addr, dll_path.as_bytes());
+    let _res = p.write_buf(dll_addr, dll_path.as_bytes());
 
     let thread_handle = unsafe {
         type StartRoutine = extern "system" fn(LPVOID) -> DWORD;
