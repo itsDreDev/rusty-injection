@@ -11,6 +11,10 @@ use windows::Win32::System::LibraryLoader::{GetModuleHandleW, GetProcAddress};
 pub type DWORD = u32;
 pub type DWORD_PTR = usize;
 pub type LPVOID = *mut c_void;
+use core::ptr::null_mut;
+use windows::Win32::Foundation::{CloseHandle, GetLastError, HANDLE, HINSTANCE};
+use windows::Win32::Security::SECURITY_ATTRIBUTES;
+use windows::Win32::System::Threading::{CreateRemoteThread, LPTHREAD_START_ROUTINE};
 
 fn get_proc(proc_name: &str) -> ProcessEntry {
     Processes::new()
@@ -165,10 +169,7 @@ macro_rules! pc_str {
     };
 }
 
-use core::ptr::null_mut;
-use windows::Win32::Foundation::{CloseHandle, GetLastError, HANDLE, HINSTANCE};
-use windows::Win32::Security::SECURITY_ATTRIBUTES;
-use windows::Win32::System::Threading::{CreateRemoteThread, LPTHREAD_START_ROUTINE};
+
 fn create_remote_thread(
     process: HANDLE,
     thread_attributes: Option<*const SECURITY_ATTRIBUTES>,
