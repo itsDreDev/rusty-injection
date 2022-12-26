@@ -3,16 +3,14 @@ use faithe::memory::MemoryProtection;
 use faithe::process::*;
 use faithe::types::access_rights::PROCESS_ALL_ACCESS;
 use faithe::types::allocation_types::{MEM_COMMIT, MEM_RESERVE};
-use faithe::types::free_types::MEM_RELEASE;
-use faithe::types::protection_flags::PAGE_READWRITE;
-use windows::core::PSTR;
-use windows::Win32::System::LibraryLoader::{GetModuleHandleW, GetProcAddress};
+
+use windows::Win32::{Foundation::HANDLE, System::LibraryLoader::GetProcAddress};
 
 pub type DWORD = u32;
 pub type DWORD_PTR = usize;
 pub type LPVOID = *mut c_void;
-use core::ptr::null_mut;
-use windows::Win32::Foundation::{CloseHandle, GetLastError, HANDLE, HINSTANCE};
+
+use windows::Win32::Foundation::CloseHandle;
 use windows::Win32::Security::SECURITY_ATTRIBUTES;
 use windows::Win32::System::Threading::{CreateRemoteThread, LPTHREAD_START_ROUTINE};
 
@@ -169,7 +167,6 @@ macro_rules! pc_str {
     };
 }
 
-
 fn create_remote_thread(
     process: HANDLE,
     thread_attributes: Option<*const SECURITY_ATTRIBUTES>,
@@ -195,5 +192,5 @@ fn create_remote_thread(
 }
 
 fn close_handle(handle: HANDLE) {
-    let res = unsafe { CloseHandle(handle) };
+    let _res = unsafe { CloseHandle(handle) };
 }
