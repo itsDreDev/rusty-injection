@@ -98,7 +98,7 @@ unsafe fn inject(p: Process, dll_path: &str, proc_name: &str) {
 
     let _res = p.write_buf(dll_addr, dll_path.as_bytes());
 
-    let thread_handle = unsafe {
+    let thread_handle = {
         type StartRoutine = extern "system" fn(LPVOID) -> DWORD;
         let start_routine: StartRoutine = std::mem::transmute(load_lib_address);
         let p_h = p.handle().0;
